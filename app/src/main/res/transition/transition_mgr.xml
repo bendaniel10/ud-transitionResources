@@ -2,4 +2,5 @@
 <transitionManager xmlns:android="http://schemas.android.com/apk/res/android">
   <transition android:toScene="@layout/layout_login" android:transition="@transition/mytransitions"/>
     <transition android:toScene="@layout/layout_signup" android:transition="@transition/mytransitions"/>
+  <transition android:toScene="@layout/activity_main" android:transition="@transition/mytransitions"/>
 </transitionManager>

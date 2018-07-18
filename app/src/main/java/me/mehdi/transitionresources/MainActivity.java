@@ -22,6 +22,9 @@ TransitionManager transitionMgr;
 ViewGroup root;
 Context context = this;
 
+//Add this boolean field to track transition
+    boolean transitionStarted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,15 +45,39 @@ Context context = this;
         transitionMgr = TransitionInflater.from(context).inflateTransitionManager(R.transition.transition_mgr, root);
     }
 
+    //Change onClick as follows
     @Override
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.login:
-                transitionMgr.transitionTo(loginScene);
+                if(!transitionStarted) {
+                    transitionMgr.transitionTo(loginScene);
+                    transitionStarted = true;
+                }
                 break;
             case R.id.signup:
-                transitionMgr.transitionTo(signupScene);
+                if(!transitionStarted) {
+                    transitionMgr.transitionTo(signupScene);
+                    transitionStarted = true;
+                }
                 break;
+        }
+    }
+
+    //override onBackPressed and add transition code to it
+
+    @Override
+    public void onBackPressed() {
+        if(transitionStarted) {
+            transitionMgr.transitionTo(mainScene);
+            transitionStarted = false;
+
+            //Note: We need to find buttons and set onClickListeners again
+            findViewById(R.id.login).setOnClickListener(this);
+            findViewById(R.id.signup).setOnClickListener(this);
+        }
+        else {
+            super.onBackPressed();
         }
     }
 }
